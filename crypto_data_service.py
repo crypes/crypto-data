@@ -23,7 +23,7 @@ app = Flask(__name__)
 DB_PATH = "/root/.openclaw/.openclaw/workspace/crypto_data.db"
 CSV_PATH = "/root/.openclaw/.openclaw/workspace/btc_usd_1m.csv"
 API_URL = "https://min-api.cryptocompare.com/data/v2/histominute"
-UPDATE_INTERVAL = 300  # 5 minutes
+UPDATE_INTERVAL = 60  # 1 minute
 CSV_SAVE_INTERVAL = 3600  # 1 hour
 
 # Initialize database
