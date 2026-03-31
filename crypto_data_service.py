@@ -219,6 +219,31 @@ def health():
     conn.close()
     return jsonify({"status": "ok", "quotes_count": count})
 
+@app.route('/api/shutdown', methods=['POST'])
+def shutdown():
+    """Graceful shutdown: save CSV and exit"""
+    from flask import request
+    print("Shutdown requested...")
+    
+    # Save to CSV
+    save_db_to_csv()
+    
+    # Schedule server shutdown after response
+    def shutdown_server():
+        import os
+        os._exit(0)
+    
+    # Use Flask's internal shutdown or exit
+    func = request.environ.get('werkzeug.server.shutdown')
+    if func is not None:
+        func()
+    else:
+        import threading
+        threading.Timer(1, shutdown_server).start()
+    
+    # Return response before exiting
+    return jsonify({"status": "shutting_down", "message": "CSV saved, service stopping"})
+
 if __name__ == '__main__':
     print("Initializing database...")
     init_db()
