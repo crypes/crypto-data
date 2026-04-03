@@ -82,7 +82,12 @@ print(f"Feature matrix shape: {vectors_arr.shape}")
 
 # Run HDBSCAN clustering
 print("Running HDBSCAN clustering...")
-clusterer = hdbscan.HDBSCAN(min_cluster_size=10, min_samples=5)
+clusterer = hdbscan.HDBSCAN(
+    min_cluster_size=8,
+    min_samples=4,
+    cluster_selection_method='leaf',
+    metric='euclidean'
+)
 cluster_labels = clusterer.fit_predict(vectors_arr)
 
 # Add cluster labels to records
