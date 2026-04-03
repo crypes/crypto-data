@@ -80,13 +80,13 @@ for i in range(n_windows):
 vectors_arr = np.array(vectors)
 print(f"Feature matrix shape: {vectors_arr.shape}")
 
-# Run HDBSCAN clustering
-print("Running HDBSCAN clustering...")
+# Run HDBSCAN clustering with correlation metric
+print("Running HDBSCAN clustering with correlation metric...")
 clusterer = hdbscan.HDBSCAN(
     min_cluster_size=8,
     min_samples=4,
     cluster_selection_method='leaf',
-    metric='euclidean'
+    metric='cosine'
 )
 cluster_labels = clusterer.fit_predict(vectors_arr)
 
