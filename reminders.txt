@@ -1,0 +1,1 @@
+2026-09-24 Rotate passphrase and review deploy key and /root/.personality_key

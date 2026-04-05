@@ -1,0 +1,122 @@
+# Kalshi Client Implementation Plan
+
+## Overview
+Implement a Ruby client for the Kalshi Trade API, starting with non-authenticated (public) endpoints.
+
+Based on OpenAPI spec: https://docs.kalshi.com/openapi.yaml
+
+---
+
+## Phase 1: Non-Authenticated Endpoints (Public Data)
+
+### Market Data (from Quick Start Guide)
+- [x] `GET /series/{ticker}` — Get series information
+- [x] `GET /markets` — Get markets with filters (series_ ticker, status)
+- [x] `GET /markets/{ticker}/orderbook` — Get orderbook for a market
+- [x] `GET /markets/{ticker}` — Get a specific market
+
+### Exchange Info
+- [x] `GET /exchange/ status` — Get exchange status (open/closed)
+- [x] `GET /exchange/ announcements` — Get exchange-wide announcements
+- [x] `GET /exchange/ schedule` — Get exchange schedule
+- [x] `GET /series/ fee_ changes` — Get series fee changes
+
+### Historical Data (Public)
+- [x] `GET /historical/ cutoff` — Get cutoff timestamps (live vs historical)
+- [x] `GET /historical/ trades` — Get historical trades (before cutoff)
+- [x] `GET /historical/ markets` — Get historical markets
+- [x] `GET /historical/ markets/{ticker}` — Get specific historical market
+- [x] `GET /historical/ markets/{ticker}/candlesticks` — Get historical candlesticks
+
+### Search (Public)
+- [x] `GET /search/ tags_ by_categories` — Get tags organized by series categories
+- [x] `GET /search/ filters_ by_ sport` — Get filters for sports
+
+### Live Market Data
+- [x] `GET /series/{series_ticker}/markets/{ticker}/candlesticks` — Get live market candlesticks
+
+---
+
+## Phase 2: Authenticated Endpoints (Require API Key)
+
+### Orders (Require Auth)
+- [x] `GET /portfolio/orders` — Get orders (with filters)
+- [ ] `POST /portfolio/orders` — Create order
+- [ ] `GET /portfolio/orders/{order_id}` — Get single order
+- [ ] `DELETE /portfolio/orders/{order_id}` — Cancel order
+- [ ] `POST /portfolio/orders/batched` — Batch create orders
+- [ ] `DELETE /portfolio/orders/batched` — Batch cancel orders
+- [ ] `POST /portfolio/orders/{order_id}/amend` — Amend order
+- [ ] `POST /portfolio/orders/{order_id}/decrease` — Decrease order size
+
+### Portfolio (Require Auth)
+- [x] `GET /portfolio/balance` — Get account balance
+- [x] `GET /portfolio/positions` — Get positions
+- [x] `GET /portfolio/fills` — Get fills (trades)
+- [ ] `GET /portfolio/settlements` — Get settlements
+
+### Subaccounts (Require Auth)
+- [ ] `POST /portfolio/subaccounts` — Create subaccount
+- [ ] `GET /portfolio/subaccounts/balances` — Get all subaccount balances
+- [ ] `POST /portfolio/subaccounts/transfer` — Transfer between subaccounts
+- [ ] `GET /portfolio/subaccounts/transfers` — Get transfer history
+
+### Order Groups (Require Auth)
+- [ ] `GET /portfolio/order_groups` — Get order groups
+- [ ] `POST /portfolio/order_groups/create` — Create order group
+- [ ] `GET /portfolio/order_groups/{id}` — Get order group
+- [ ] `DELETE /portfolio/order_groups/{id}` — Delete order group
+
+### API Keys (Require Auth)
+- [ ] `GET /api_keys` — List API keys
+- [ ] `POST /api_keys` — Create API key
+- [ ] `POST /api_keys/generate` — Generate API key
+- [ ] `DELETE /api_keys/{api_key}` — Delete API key
+
+---
+
+## Implementation Notes
+
+### Client Structure
+```
+lib/player/adapt?rs/kalshi/
+├── client.rb          # Base client with HTTP methods
+├── endpoints/
+│   ├── market_data.rb # Series, Markets, Orderbook
+│   ├── exchange.    # Status, Schedule, Announcements
+│   ├── historical.  # Historical data endpoints
+│   └── search.      # Search endpoints
+└── auth/
+    └── authenticated_client.rb  # For auth-required endpoints
+```
+
+### Testing Approach
+- Each endpoint method should have a corresponding test
+- Use VCR or similar for recording/playing back API responses
+- Create integration tests that make actual API calls (with proper fixtures)
+
+---
+
+## Progress Log
+
+| Date | Endpoint | Status |
+|------|----------|--------|
+| 2026-04-05 | GET /series/{ticker} | ✅ Complete |
+| 2026-04-05 | GET /markets | ✅ Complete |
+| 2026-04-05 | GET /markets/{ticker}/orderbook | ✅ Complete |
+| 2026-04-05 | GET /exchange/status | ✅ Complete |
+| 2026-04-05 | GET /exchange/announcements | ✅ Complete |
+| 2026-04-05 | GET /exchange/schedule | ✅ Complete |
+| 2026-04-05 | GET /series/fee_changes | ✅ Complete |
+| 2026-04-05 | GET /historical/cutoff | ✅ Complete |
+| 2026-04-05 | GET /historical/trades | ✅ Complete |
+| 2026-04-05 | GET /historical/markets | ✅ Complete |
+| 2026-04-05 | GET /historical/markets/{ticker} | ✅ Complete |
+| 2026-04-05 | GET /historical/markets/{ticker}/candlesticks | ✅ Complete |
+| 2026-04-05 | GET /search/tags_by_categories | ✅ Complete |
+| 2026-04-05 | GET /search/filters_by_sport | ✅ Complete |
+| 2026-04-05 | GET /series/{series_ticker}/markets/{ticker}/candlesticks | ✅ Complete |
+| 2026-04-05 | GET /portfolio/balance | ✅ Complete |
+| 2026-04-05 | GET /portfolio/orders | ✅ Complete |
+| 2026-04-05 | GET /portfolio/positions | ✅ Complete |
+| 2026-04-05 | GET /portfolio/fills | ✅ Complete |

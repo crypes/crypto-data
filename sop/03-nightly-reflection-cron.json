@@ -1,0 +1,8 @@
+{
+  "name": "Nightly Reflection",
+  "schedule": "45 23 * * *",
+  "tz": "UTC",
+  "session": "main",
+  "systemEvent": "Run nightly reflection: Pogo will follow the SOP '03-nightly-reflection.md and push to GitHub.",
+  "wake": "now"
+}
