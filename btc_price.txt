@@ -1,0 +1,4 @@
+Fetching real‑time prices from CoinGecko (Ctrl‑C to stop)...
+BTC-USD: $72938
+ETH-USD: $2244.18
+SOL-USD: $84.83
